@@ -6,10 +6,15 @@ import "react-table/react-table.css";
 interface IEmail {
     "title": number;
     "checkList": ICheckList[];
-    "bcc": string;
+    "bcc": IBcc;
 }
 
 interface ICheckList {
+    "isEnable": boolean;
+    "email": string
+}
+
+interface IBcc {
     "isEnable": boolean;
     "email": string
 }
@@ -20,24 +25,30 @@ interface IState {
 
 }
 class EmailForm extends Component<IEmail & IState & WithTranslation> {
-    state = {
-        allTrustPersonSelected: true,
-        allSecurityContactsSelected: false,
-    };
+
     renderCheckbox = (title: string) => {
         return (
             <div>{title}</div>
         );
     }
     overrideValue = (index: number, override: any) => {
-        console.log('index: ' + index + ' override: ' + override)
+        //console.log('index: ' + index + ' override: ' + override)
         this.props.handleBccInput(index, override)
     }
 
     onCheckBoxItemSelected = (emailIndex: number, addressIndex: number) => {
         var data = this.props.data
-        console.log(' onCheckBoxItemSelected data: ' + JSON.stringify(data))
+        //console.log(' onCheckBoxItemSelected data: ' + JSON.stringify(data))
         data[emailIndex].checkList[addressIndex].isEnable = !data[emailIndex].checkList[addressIndex].isEnable
+        data[emailIndex].bcc.isEnable = data[emailIndex].checkList.some(item => item.isEnable === true)
+        for(var i = 0; i< data.length; i++){
+            if(data[i].checkList.every(it => it.isEnable === true)){
+                data[i].bcc.isEnable = true
+            } else {
+                data[i].bcc.isEnable = false
+                break
+            }
+        }
         this.props.updateEmailList(data)
 
     }
@@ -75,7 +86,7 @@ class EmailForm extends Component<IEmail & IState & WithTranslation> {
                 resizable: true,
                 Cell: props => {
                     const cellValues = props.value
-                    console.log('cell.value : ' + JSON.stringify(cellValues))
+                    //console.log('cell.value : ' + JSON.stringify(cellValues))
                     return cellValues.map((item: ICheckList, index: number) => {
                         return (
                             <div>
@@ -93,7 +104,7 @@ class EmailForm extends Component<IEmail & IState & WithTranslation> {
                 accessor: "bcc",
                 Cell: props => {
                     return (
-                        <input value={props.value} onChange={e => { this.overrideValue(props.index, e.target.value) }} type="email" multiple ></input>
+                        <input disabled={!props.value.isEnable} value={props.value.email} onChange={e => { this.overrideValue(props.index, e.target.value) }} type="text" ></input>
                     )
 
                 },

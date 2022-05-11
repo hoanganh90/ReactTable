@@ -1,8 +1,22 @@
 import React, { Component } from "react";
 import { Formik } from "formik";
 import './App.css';
-import EmailForm  from "./EmailForm";
-const defaults =[
+import EmailForm from "./EmailForm";
+interface IEmail {
+  "title": number;
+  "checkList": ICheckList[];
+  "bcc": IBcc;
+}
+interface ICheckList {
+  "isEnable": boolean;
+  "email": string
+}
+
+interface IBcc {
+  "isEnable": boolean;
+  "email": string
+}
+const defaults = [
   {
     title: "title-1",
     checkList: [{
@@ -13,7 +27,10 @@ const defaults =[
       isEnable: true,
       email: "title-1.2@mail.com"
     }],
-    bcc: ""
+    bcc: {
+      isEnable: true,
+      email: ""
+    }
   },
   {
     title: "title-2",
@@ -21,7 +38,10 @@ const defaults =[
       isEnable: true,
       email: "title-2@mail.com"
     }],
-    bcc: ""
+    bcc: {
+      isEnable: true,
+      email: ""
+    }
   },
   {
     title: "title-3",
@@ -29,11 +49,14 @@ const defaults =[
       isEnable: true,
       email: "title-3@mail.com"
     }],
-    bcc: ""
+    bcc: {
+      isEnable: true,
+      email: ""
+    }
   }
-] ;
+];
 
-class App extends Component{
+class App extends Component {
   state = {
     data: defaults,
   }
@@ -45,18 +68,18 @@ class App extends Component{
     return initialValues;
   }
 
-  handleBccInput = ( index: number, event: string ) => {
-		console.log( 'handleBccInput index: ' + index + ' bccInput : ' + event )
-		var items = this.state.data;
-		items[index].bcc = event
-	}
+  handleBccInput = (index: number, event: string) => {
+    console.log('handleBccInput index: ' + index + ' bccInput : ' + event)
+    var items = this.state.data;
+    items[index].bcc.email = event
+  }
   onSubmit = () => {
     console.log('onSubmit clicked')
   }
-  updateEmailList = () => {
-    var items = this.state.data;
+  updateEmailList = (selectedEmails: IEmail[]) => {
+    console.log('updateEmailList: ' + JSON.stringify(selectedEmails))
     this.setState({
-      data: items
+      data: selectedEmails
     })
   }
 
@@ -73,7 +96,7 @@ class App extends Component{
     );
     return (
       <React.Fragment >
-        <Formik 
+        <Formik
           // tslint:disable-next-line jsx-no-lambda
           render={props => renderForm(props)}
           initialValues={initialValues}
