@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Form, FormikProps } from "formik";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { Cell, GridContainer } from "react-foundation";
 import ReactTable, { Column } from "react-table";
 import "react-table/react-table.css";
 interface IEmail {
@@ -16,8 +15,8 @@ interface ICheckList {
 }
 interface IState {
     data: IEmail[],
-    parentCallback(index: any, event: string): any,
-    updateVaultList(data: IEmail[]): any
+    handleBccInput(index: any, event: string): any,
+    updateEmailList(data: IEmail[]): any
 
 }
 class EmailForm extends Component<IEmail & IState & WithTranslation> {
@@ -32,36 +31,15 @@ class EmailForm extends Component<IEmail & IState & WithTranslation> {
     }
     overrideValue = (index: number, override: any) => {
         console.log('index: ' + index + ' override: ' + override)
-        const { data } = this.props;
-        this.onTrigger(index, override)
-        console.log('overrideValue data: ' + JSON.stringify(data))
-    }
-
-    onTrigger = (index: number, event: any) => {
-        this.props.parentCallback(index, event);
-        // event.preventDefault();
+        this.props.handleBccInput(index, override);
+        override.preventDefault()
     }
 
     onCheckBoxItemSelected = (emailIndex: number, addressIndex: number) => {
         var data = this.props.data
         console.log(' onCheckBoxItemSelected data: ' + JSON.stringify(data))
         data[emailIndex].checkList[addressIndex].isEnable = !data[emailIndex].checkList[addressIndex].isEnable
-
-        var isAllSecurityContactsSelected = false;
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].checkList.every(it => it.isEnable === true)) {
-                isAllSecurityContactsSelected = true
-            } else {
-                isAllSecurityContactsSelected = false;
-                break
-            }
-        }
-        return
-        this.setState({
-            allSecurityContactsSelected: isAllSecurityContactsSelected
-        })
-
-        this.props.updateVaultList(data)
+        this.props.updateEmailList(data)
 
     }
     renderHeader = (title: string) => {
@@ -83,9 +61,8 @@ class EmailForm extends Component<IEmail & IState & WithTranslation> {
                 accessor: "title",
                 width: 200,
                 Cell: props => {
-                    //console.log('cellValues: ' + props.value)
                     return (
-                        <input value={props.value} ></input>
+                        <input value={props.value} readOnly></input>
                     )
 
                 },
@@ -116,8 +93,11 @@ class EmailForm extends Component<IEmail & IState & WithTranslation> {
                 id: "bcc",
                 accessor: "bcc",
                 Cell: props => {
+                    const bccCellValues = props.value
+                    const index = props.index
+                    console.log('bccCellValues : ' + JSON.stringify(bccCellValues) + ' index: ' + index)
                     return (
-                        <input value={props.value} onChange={e => { this.overrideValue(0, e.target.value) }} type="email" multiple ></input>
+                        <input onChange={e => { this.overrideValue(props.index, e.target.value) }} type="email" multiple ></input>
                     )
 
                 },

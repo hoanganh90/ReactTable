@@ -45,13 +45,19 @@ class App extends Component{
     return initialValues;
   }
 
-  handleCallback = ( index: number, event: string ) => {
-		console.log( 'handleCallback index: ' + index + ' childData : ' + event )
+  handleBccInput = ( index: number, event: string ) => {
+		console.log( 'handleBccInput index: ' + index + ' bccInput : ' + event )
 		var items = this.state.data;
 		items[index].bcc = event
 	}
   onSubmit = () => {
     console.log('onSubmit clicked')
+  }
+  updateEmailList = () => {
+    var items = this.state.data;
+    this.setState({
+      data: items
+    })
   }
 
   render() {
@@ -61,7 +67,8 @@ class App extends Component{
       <EmailForm
         {...props}
         data={this.state.data}
-        parentCallback={this.handleCallback}
+        handleBccInput={this.handleBccInput}
+        updateEmailList={this.updateEmailList}
       />
     );
     return (
