@@ -31,8 +31,7 @@ class EmailForm extends Component<IEmail & IState & WithTranslation> {
     }
     overrideValue = (index: number, override: any) => {
         console.log('index: ' + index + ' override: ' + override)
-        this.props.handleBccInput(index, override);
-        override.preventDefault()
+        this.props.handleBccInput(index, override)
     }
 
     onCheckBoxItemSelected = (emailIndex: number, addressIndex: number) => {
@@ -93,11 +92,8 @@ class EmailForm extends Component<IEmail & IState & WithTranslation> {
                 id: "bcc",
                 accessor: "bcc",
                 Cell: props => {
-                    const bccCellValues = props.value
-                    const index = props.index
-                    console.log('bccCellValues : ' + JSON.stringify(bccCellValues) + ' index: ' + index)
                     return (
-                        <input onChange={e => { this.overrideValue(props.index, e.target.value) }} type="email" multiple ></input>
+                        <input value={props.value} onChange={e => { this.overrideValue(props.index, e.target.value) }} type="email" multiple ></input>
                     )
 
                 },
