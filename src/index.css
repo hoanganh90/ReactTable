@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+form-email {
+		border: solid;
+		background-color: #fff;
+		font-size: rem(13px);
+		font-family: "LatoWeb" !important;
+		min-height: rem(30px);
+		padding: 8px 10px 4px 10px;
+		max-width: rem(1024px);
+		width: 100%;
+	
+}
+
+email-container-form {
+	position: relative;
+	width: 760px;
+	max-height: 960px;
+
+	font-size: rem(14px);
+	line-height: 0;
+  
+}
+
+detail-list > .grid-x {
+	max-width: rem(800px) !important;
+	font-size: rem(14px);
+}
+detail-list .grid-x:nth-child(odd) {
+	background-color: white;
+}
+detail-list .cell {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: rem(13px) rem(10px);
+	word-break: break-all;
+	border-top: solid 1px #e9e9e9;
+}
