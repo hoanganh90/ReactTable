@@ -22,7 +22,6 @@ interface IState {
     data: IEmail[],
     handleBccInput(index: any, event: string): any,
     handleCheckboxSelected(emailIndex: number, addressIndex: number): any,
-    updateEmailList(data: IEmail[]): any
 
 }
 class EmailForm extends Component<IEmail & IState & WithTranslation> {
@@ -39,21 +38,6 @@ class EmailForm extends Component<IEmail & IState & WithTranslation> {
 
     onCheckBoxItemSelected = (emailIndex: number, addressIndex: number) => {
         this.props.handleCheckboxSelected(emailIndex, addressIndex)
-        /*
-        var data = this.props.data
-        //console.log(' onCheckBoxItemSelected data: ' + JSON.stringify(data))
-        data[emailIndex].checkList[addressIndex].isEnable = !data[emailIndex].checkList[addressIndex].isEnable
-        data[emailIndex].bcc.isEnable = data[emailIndex].checkList.some(item => item.isEnable === true)
-        for(var i = 0; i< data.length; i++){
-            if(data[i].checkList.every(it => it.isEnable === true)){
-                data[i].bcc.isEnable = true
-            } else {
-                data[i].bcc.isEnable = false
-                break
-            }
-        }
-        this.props.updateEmailList(data)
-*/
     }
     renderHeader = (title: string) => {
         return (

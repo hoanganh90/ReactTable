@@ -71,6 +71,7 @@ class App extends Component {
   handleBccInput = (index: number, event: string) => {
     console.log('handleBccInput index: ' + index + ' bccInput : ' + event)
     let data = [...this.state.data];
+    //console.log('data: ' + JSON.stringify(data));
     data[index].bcc.email = event;
     console.log('data[index].bcc.email: ' + data[index].bcc.email);
     this.setState({ data });
@@ -79,14 +80,7 @@ class App extends Component {
   onSubmit = () => {
     console.log('onSubmit clicked')
   }
-  updateEmailList = (selectedEmails: IEmail[]) => {
-    console.log('updateEmailList: ' + JSON.stringify(selectedEmails))
-    this.setState({
-      data: selectedEmails
-    })
 
-
-  }
   handleCheckboxSelected = (emailIdx: number, addressIdx: number) => {
 
     let data = [...this.state.data];
@@ -103,7 +97,6 @@ class App extends Component {
         {...props}
         data={this.state.data}
         handleBccInput={this.handleBccInput}
-        updateEmailList={this.updateEmailList}
         handleCheckboxSelected={this.handleCheckboxSelected}
       />
     );
