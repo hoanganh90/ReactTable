@@ -71,7 +71,8 @@ class App extends Component {
   handleBccInput = (index: number, event: string) => {
     console.log('handleBccInput index: ' + index + ' bccInput : ' + event)
     let data = [...this.state.data];
-    data[index].bcc = { ...data[index].bcc, email: event };
+    data[index].bcc.email = event;
+    console.log('data[index].bcc.email: ' + data[index].bcc.email);
     this.setState({ data });
 
   }
@@ -84,9 +85,9 @@ class App extends Component {
       data: selectedEmails
     })
 
-    
+
   }
-  handleCheckboxSelected = (emailIdx: number,addressIdx: number) => {
+  handleCheckboxSelected = (emailIdx: number, addressIdx: number) => {
 
     let data = [...this.state.data];
     data[emailIdx].checkList[addressIdx].isEnable = !data[emailIdx].checkList[addressIdx].isEnable
@@ -103,7 +104,7 @@ class App extends Component {
         data={this.state.data}
         handleBccInput={this.handleBccInput}
         updateEmailList={this.updateEmailList}
-        handleCheckboxSelected= {this.handleCheckboxSelected}
+        handleCheckboxSelected={this.handleCheckboxSelected}
       />
     );
     return (
